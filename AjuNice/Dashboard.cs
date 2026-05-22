@@ -5,15 +5,42 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
 namespace AjuNice
-
 {
     public partial class Dashboard : Form
     {
         public Dashboard()
         {
             InitializeComponent();
+
+            this.Load += new EventHandler(Dashboard_Load);
+        }
+
+        public class Order
+        {
+            public string OrderID { get; set; }
+            public string Time { get; set; }
+            public string Items { get; set; }
+            public string Total { get; set; }
+            public string Status { get; set; }
+        }
+
+        private void Dashboard_Load(object sender, EventArgs e)
+        {
+            LoadRecentOrders();
+        }
+
+        private void LoadRecentOrders()
+        {
+            List<Order> recentOrdersList = new List<Order>()
+            {
+                new Order { OrderID = "ORD-001", Time = "05:15 PM", Items = "Classic Burger Combo x2", Total = "₱360.00", Status = "Completed" },
+                new Order { OrderID = "ORD-002", Time = "05:19 PM", Items = "Cheese Overload Burger", Total = "₱180.00", Status = "Pending" },
+                new Order { OrderID = "ORD-003", Time = "05:30 PM", Items = "Bacon & Mushroom Meal", Total = "₱240.00", Status = "Preparing" }
+            };
+
+            dgvRecentOrders.AutoGenerateColumns = true;
+            dgvRecentOrders.DataSource = recentOrdersList;
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
